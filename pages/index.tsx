@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { MainButtonStyle } from '../src/styles/main-button';
+import { PageContainerStyle } from '../src/styles/page-container';
+import { PageMenuStyle } from '../src/styles/page-menu-container';
 
 const Home = () => {
 	return (
-		<PageContainerStyle>
-			<LandingPageMenuStyle>
+		<LandingPageContainerStyle>
+			<PageMenuStyle>
 				<img src={'logo-landing.svg'} alt="" />
-			</LandingPageMenuStyle>
+			</PageMenuStyle>
 			<LandingPageBodyStyle>
 				<h1>Encontre devs que cruzaram seu caminho</h1>
 				<p>
@@ -20,35 +22,21 @@ const Home = () => {
 				</p>
 				<MainButtonLandingStyle>ENTRAR</MainButtonLandingStyle>
 			</LandingPageBodyStyle>
-		</PageContainerStyle>
+		</LandingPageContainerStyle>
 	);
 };
 
 export default Home;
 
-export const PageContainerStyle = styled.div`
+export const LandingPageContainerStyle = styled(PageContainerStyle)`
 	background-image: url('landing.png');
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position-x: 100%;
-
-	width: 100vw;
-	min-height: 100vh;
-
-	display: flex;
-	flex-direction: column;
-
-	align-items: center;
 `;
-export const LandingPageMenuStyle = styled.nav`
+export const LandingPageMenuStyle = styled(PageMenuStyle)`
 	max-width: 600px;
 	width: 90%;
-
-	height: 15vh;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
 `;
 export const LandingPageBodyStyle = styled.main`
 	max-width: 600px;
