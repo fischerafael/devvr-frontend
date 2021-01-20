@@ -1,5 +1,7 @@
+import Link from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
+import WhiteMenu from '../src/components/menu/white-menu';
 import { MainButtonStyle } from '../src/styles/main-button';
 import { PageContainerStyle } from '../src/styles/page-container';
 import { PageMenuStyle } from '../src/styles/page-menu-container';
@@ -7,9 +9,7 @@ import { PageMenuStyle } from '../src/styles/page-menu-container';
 const Home = () => {
 	return (
 		<LandingPageContainerStyle>
-			<PageMenuStyle>
-				<img src={'logo-landing.svg'} alt="" />
-			</PageMenuStyle>
+			<WhiteMenu />
 			<LandingPageBodyStyle>
 				<h1>Encontre devs que cruzaram seu caminho</h1>
 				<p>
@@ -20,7 +20,9 @@ const Home = () => {
 					Graças ao devvr, conecte-se e aproveite as oportunidades que
 					surgem.
 				</p>
-				<MainButtonLandingStyle>ENTRAR</MainButtonLandingStyle>
+				<Link href="login">
+					<MainButtonLandingStyle>ENTRAR</MainButtonLandingStyle>
+				</Link>
 			</LandingPageBodyStyle>
 		</LandingPageContainerStyle>
 	);

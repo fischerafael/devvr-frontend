@@ -5,27 +5,12 @@ import styled from 'styled-components';
 import { PageContainerStyle } from '../../src/styles/page-container';
 import { PageMenuStyle } from '../../src/styles/page-menu-container';
 import Card from '../../src/components/card';
+import BlueMenu from '../../src/components/menu/blue-menu';
 
 const Home = () => {
 	return (
-		<PageContainerStyle>
-			<HomePageMenuStyle>
-				<div>
-					<Link href="menu">
-						<div className="first">
-							<img src={'menu.svg'} alt="" />
-						</div>
-					</Link>
-					<div className="second">
-						<img src={'simple-logo.svg'} alt="" />
-					</div>
-					<Link href="matches">
-						<div className="third">
-							<div>0</div>
-						</div>
-					</Link>
-				</div>
-			</HomePageMenuStyle>
+		<HomePageContainerStyle>
+			<BlueMenu backLink="menu" forwardLink="matches" />
 			<HomePageBodyStyle>
 				<Card />
 				<Card />
@@ -34,7 +19,7 @@ const Home = () => {
 				<Card />
 				<Card />
 			</HomePageBodyStyle>
-		</PageContainerStyle>
+		</HomePageContainerStyle>
 	);
 };
 
@@ -99,4 +84,7 @@ export const HomePageMenuStyle = styled(PageMenuStyle)`
 			}
 		}
 	}
+`;
+export const HomePageContainerStyle = styled(PageContainerStyle)`
+	background: #f0f0f0;
 `;
