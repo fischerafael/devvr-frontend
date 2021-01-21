@@ -1,11 +1,36 @@
 import Link from 'next/link';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import WhiteMenu from '../../src/components/menu/white-menu';
 import { PageContainerStyle } from '../../src/styles/page-container';
 import { MainButtonStyle } from '../../src/styles/main-button';
+import useGetPosition from '../../src/hooks/useGetPosition';
+import UserServices from '../../src/services/user';
 
 const Register = () => {
+	const router = useRouter();
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const [tech, setTech] = useState('');
+	const { latitude, longitude, setLatitude, setLongitude } = useGetPosition();
+
+	async function createUserHandler(e: any) {
+		e.preventDefault();
+
+		const response = await UserServices.create({
+			username,
+			password,
+			tech,
+			latitude,
+			longitude
+		});
+
+		alert(`Usuário ${response.data.username} criado com sucesso`);
+
+		router.push('/login');
+	}
+
 	return (
 		<PageContainerStyle>
 			<WhiteMenu whiteMenu={true} />
@@ -15,15 +40,42 @@ const Register = () => {
 
 			<PageFormBodyStyle>
 				<form>
-					<input type="text" placeholder="Usuário GitHub" />
-					<input type="password" placeholder="Senha" />
-					<input type="text" placeholder="Tecnologias" />
+					<input
+						type="text"
+						placeholder="Usuário GitHub"
+						value={username}
+						onChange={(e) => setUsername(e.target.value)}
+					/>
+					<input
+						type="password"
+						placeholder="Senha"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+					/>
+					<input
+						type="text"
+						placeholder="Tecnologias"
+						value={tech}
+						onChange={(e) => setTech(e.target.value)}
+					/>
 					<div>
-						<input type="number" placeholder="Longitude" />
-						<input type="number" placeholder="Latitude" />
+						<input
+							type="number"
+							placeholder="Longitude"
+							value={longitude}
+							onChange={(e) => setLongitude(+e.target.value)}
+						/>
+						<input
+							type="number"
+							placeholder="Latitude"
+							value={latitude}
+							onChange={(e) => setLatitude(+e.target.value)}
+						/>
 					</div>
 				</form>
-				<MainButtonStyle>CADASTRAR</MainButtonStyle>
+				<MainButtonStyle onClick={createUserHandler}>
+					CADASTRAR
+				</MainButtonStyle>
 			</PageFormBodyStyle>
 
 			<PageFormFooterStyle>
