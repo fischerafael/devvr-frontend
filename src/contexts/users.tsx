@@ -20,6 +20,8 @@ const UsersContext = createContext<IUsersContext>({} as IUsersContext);
 export const UsersProvider: React.FC = ({ children }) => {
 	const [users, setUsers] = useState([]);
 
+	console.log(users);
+
 	return (
 		<UsersContext.Provider value={{ users, setUsers }}>
 			{children}

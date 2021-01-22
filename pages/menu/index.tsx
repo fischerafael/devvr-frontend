@@ -46,12 +46,12 @@ const Menu = () => {
 
 	function subDistance(e: any) {
 		e.preventDefault();
-		setMaxDistance(maxDistance - 1000);
+		setMaxDistance(maxDistance - 1);
 	}
 
 	function addDistance(e: any) {
 		e.preventDefault();
-		setMaxDistance(maxDistance + 1000);
+		setMaxDistance(maxDistance + 1);
 	}
 
 	function logoutHandler() {
@@ -80,8 +80,8 @@ const Menu = () => {
 					<input
 						type="number"
 						placeholder="Distância Máxima"
-						value={maxDistance / 1000}
-						onChange={(e) => setMaxDistance(+e.target.value * 1000)}
+						value={maxDistance}
+						onChange={(e) => setMaxDistance(+e.target.value)}
 						min="0"
 						max="20"
 					/>

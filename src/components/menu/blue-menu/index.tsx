@@ -6,9 +6,10 @@ import { PageMenuStyle } from '../../../styles/page-menu-container';
 interface IBlueMenu {
 	backLink?: string;
 	forwardLink?: string;
+	matches?: number;
 }
 
-const BlueMenu: React.FC<IBlueMenu> = ({ backLink, forwardLink }) => {
+const BlueMenu: React.FC<IBlueMenu> = ({ backLink, forwardLink, matches }) => {
 	return (
 		<HomePageMenuStyle>
 			<div>
@@ -23,7 +24,19 @@ const BlueMenu: React.FC<IBlueMenu> = ({ backLink, forwardLink }) => {
 				{forwardLink ? (
 					<Link href={forwardLink}>
 						<div className="third">
-							<div>0</div>
+							{matches > 0 ? (
+								<div
+									style={{
+										background: 'red',
+										color: 'white',
+										fontWeight: 900
+									}}
+								>
+									{matches}
+								</div>
+							) : (
+								<div>0</div>
+							)}
 						</div>
 					</Link>
 				) : (

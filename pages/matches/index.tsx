@@ -4,25 +4,32 @@ import { PageContainerStyle } from '../../src/styles/page-container';
 
 import React from 'react';
 import styled from 'styled-components';
+import useMatches from '../../src/hooks/useMatches';
+import { concatenateArrayOfStrings } from '../../src/helpers/concatenateArrayToString';
 
 const Matches = () => {
+	const { matches } = useMatches();
+
 	return (
 		<MatchesPageContainerStyle>
 			<BlueMenu backLink="home" />
 			<MatchesBodyStyle>
-				<MatchCardContainer>
-					<img
-						src="https://media.vanityfair.com/photos/5f4d3a7e1e10df7a77868a63/2:3/w_1428,h_2142,c_limit/BradPitt-GettyImages-1158782727.jpg"
-						alt=""
-					/>
-					<div>
-						<div>
-							<img src={'github-logo.svg'} alt="Logo Github" />
-							<p>Username</p>
-						</div>
-						<p>React, Node, Cobol, Delphi, Assembly</p>
-					</div>
-				</MatchCardContainer>
+				{matches &&
+					matches.map((match) => (
+						<MatchCardContainer key={match._id}>
+							<img src={match.thumbnail} alt="" />
+							<div>
+								<div>
+									<img
+										src={'github-logo.svg'}
+										alt="Logo Github"
+									/>
+									<p>{match.username}</p>
+								</div>
+								<p>{concatenateArrayOfStrings(match.tech)}</p>
+							</div>
+						</MatchCardContainer>
+					))}
 			</MatchesBodyStyle>
 		</MatchesPageContainerStyle>
 	);

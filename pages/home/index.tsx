@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -9,17 +9,18 @@ import BlueMenu from '../../src/components/menu/blue-menu';
 import UsersContext from '../../src/contexts/users';
 import useAuth from '../../src/hooks/useAuth';
 import api from '../../src/services';
+import useMatches from '../../src/hooks/useMatches';
 
 const Home = () => {
 	const { sessionData } = useAuth();
 	const { userId } = sessionData;
 	const { _id } = userId;
 
+	const { matches } = useMatches();
+
 	const { users, setUsers } = useContext(UsersContext);
 
 	async function likeHandler(id: string) {
-		alert(`Clicou no usuário ${id}`);
-
 		try {
 			await api.post(`/likes/${id}`, null, {
 				headers: {
@@ -35,8 +36,6 @@ const Home = () => {
 	}
 
 	async function dislikeHandler(id: string) {
-		alert(`Clicou no usuário ${id}`);
-
 		try {
 			await api.post(`/dislikes/${id}`, null, {
 				headers: {
@@ -53,7 +52,11 @@ const Home = () => {
 
 	return (
 		<HomePageContainerStyle>
-			<BlueMenu backLink="menu" forwardLink="matches" />
+			<BlueMenu
+				backLink="menu"
+				forwardLink="matches"
+				matches={matches.length}
+			/>
 			<HomePageBodyStyle>
 				{users &&
 					users.map((user) => (
