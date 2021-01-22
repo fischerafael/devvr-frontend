@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -6,18 +6,66 @@ import { PageContainerStyle } from '../../src/styles/page-container';
 import { PageMenuStyle } from '../../src/styles/page-menu-container';
 import Card from '../../src/components/card';
 import BlueMenu from '../../src/components/menu/blue-menu';
+import UsersContext from '../../src/contexts/users';
+import useAuth from '../../src/hooks/useAuth';
+import api from '../../src/services';
 
 const Home = () => {
+	const { sessionData } = useAuth();
+	const { userId } = sessionData;
+	const { _id } = userId;
+
+	const { users, setUsers } = useContext(UsersContext);
+
+	async function likeHandler(id: string) {
+		alert(`Clicou no usuário ${id}`);
+
+		try {
+			await api.post(`/likes/${id}`, null, {
+				headers: {
+					user_id: _id
+				}
+			});
+
+			setUsers(users.filter((user) => user._id !== id));
+		} catch (err) {
+			alert('Erro ao curtir dev. Tente novamente');
+			console.log(err);
+		}
+	}
+
+	async function dislikeHandler(id: string) {
+		alert(`Clicou no usuário ${id}`);
+
+		try {
+			await api.post(`/dislikes/${id}`, null, {
+				headers: {
+					user_id: _id
+				}
+			});
+
+			setUsers(users.filter((user) => user._id !== id));
+		} catch (err) {
+			alert('Erro ao não curtir dev. Tente novamente');
+			console.log(err);
+		}
+	}
+
 	return (
 		<HomePageContainerStyle>
 			<BlueMenu backLink="menu" forwardLink="matches" />
 			<HomePageBodyStyle>
-				<Card />
-				<Card />
-				<Card />
-				<Card />
-				<Card />
-				<Card />
+				{users &&
+					users.map((user) => (
+						<Card
+							key={user._id}
+							id={user._id}
+							techs={user.tech}
+							thumbnail={user.thumbnail}
+							likeHandler={likeHandler}
+							dislikeHandler={dislikeHandler}
+						/>
+					))}
 			</HomePageBodyStyle>
 		</HomePageContainerStyle>
 	);

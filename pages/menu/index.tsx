@@ -6,6 +6,7 @@ import api from '../../src/services';
 import { PageContainerStyle } from '../../src/styles/page-container';
 import SessionContext from '../../src/contexts/session';
 import { useRouter } from 'next/router';
+import UsersContext from '../../src/contexts/users';
 
 const Menu = () => {
 	useAuth();
@@ -13,6 +14,8 @@ const Menu = () => {
 	const router = useRouter();
 
 	const { setSessionData, sessionData } = useContext(SessionContext);
+	const { setUsers } = useContext(UsersContext);
+
 	const [maxDistance, setMaxDistance] = useState(10000);
 
 	const { userId } = sessionData;
@@ -32,7 +35,10 @@ const Menu = () => {
 					}
 				}
 			);
-			console.log('users', response);
+
+			setUsers(response.data);
+
+			router.push('/home');
 		} catch (err) {
 			alert('Falhar ao carregar usuários');
 		}

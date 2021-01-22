@@ -1,25 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
+import { concatenateArrayOfStrings } from '../../helpers/concatenateArrayToString';
 
-const Card = () => {
+interface ICard {
+	techs: string[];
+	id: string;
+	thumbnail: string;
+	likeHandler(id: string): Promise<void>;
+	dislikeHandler(id: string): Promise<void>;
+}
+
+const Card: React.FC<ICard> = ({
+	thumbnail,
+	techs,
+	id,
+	likeHandler,
+	dislikeHandler
+}) => {
 	return (
 		<CardContainerStyle>
 			<div className="card-info">
-				<img
-					src={
-						'https://media.vanityfair.com/photos/5f4d3a7e1e10df7a77868a63/2:3/w_1428,h_2142,c_limit/BradPitt-GettyImages-1158782727.jpg'
-					}
-					alt=""
-				/>
-				<p>
-					React, Node, Cobol, Java, Excel, HUSDHUF, hdufhufd, hushfuas
-				</p>
+				<img src={thumbnail} alt="" />
+				<p>{concatenateArrayOfStrings(techs)}</p>
 			</div>
 			<div className="card-actions">
-				<button>
+				<button onClick={() => dislikeHandler(id)}>
 					<img src={'dislike.svg'} alt="" />
 				</button>
-				<button>
+				<button onClick={() => likeHandler(id)}>
 					<img src={'like.svg'} alt="" />
 				</button>
 			</div>
@@ -52,6 +60,7 @@ export const CardContainerStyle = styled.div`
 			}
 		}
 		p {
+			width: 90%;
 			position: absolute;
 			bottom: 40px;
 			height: 60px;
