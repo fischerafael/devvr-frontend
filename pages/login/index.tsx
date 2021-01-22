@@ -12,8 +12,7 @@ const Login = () => {
 	const router = useRouter();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-
-	const { logIn, sessionData } = useContext(SessionContext);
+	const { setSessionData } = useContext(SessionContext);
 
 	async function loginHandler(e: any) {
 		e.preventDefault();
@@ -23,13 +22,11 @@ const Login = () => {
 				password
 			});
 
-			const { data } = response;
-
-			logIn({ signed: true, userId: data._id });
+			setSessionData({ signed: true, userId: response.data._id });
 
 			alert(`Usuário ${response.data.username} entrou com sucesso`);
 
-			//router.push('/menu');
+			router.push('/menu');
 		} catch (err) {
 			alert('Falha ao acessar o sistema, tente novamente.');
 

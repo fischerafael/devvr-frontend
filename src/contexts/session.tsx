@@ -7,7 +7,7 @@ interface ISessionState {
 
 interface ISessionContext {
 	sessionData: ISessionState;
-	logIn(data: ISessionState): void;
+	setSessionData(data: ISessionState): void;
 }
 
 const SessionContext = createContext<ISessionContext>({} as ISessionContext);
@@ -18,14 +18,10 @@ export const SessionProvider: React.FC = ({ children }) => {
 		userId: ''
 	});
 
-	function logIn(data: ISessionState) {
-		setSessionData(data);
-	}
-
 	console.log(sessionData);
 
 	return (
-		<SessionContext.Provider value={{ sessionData, logIn }}>
+		<SessionContext.Provider value={{ sessionData, setSessionData }}>
 			{children}
 		</SessionContext.Provider>
 	);
