@@ -2,7 +2,12 @@ import { createContext, useState } from 'react';
 
 interface ISessionState {
 	signed: boolean;
-	userId: string;
+	userId: {
+		_id: string;
+		location: {
+			coordinates: number[];
+		};
+	};
 }
 
 interface ISessionContext {
@@ -15,10 +20,13 @@ const SessionContext = createContext<ISessionContext>({} as ISessionContext);
 export const SessionProvider: React.FC = ({ children }) => {
 	const [sessionData, setSessionData] = useState<ISessionState>({
 		signed: false,
-		userId: ''
+		userId: {
+			_id: '',
+			location: {
+				coordinates: [0, 0]
+			}
+		}
 	});
-
-	console.log(sessionData);
 
 	return (
 		<SessionContext.Provider value={{ sessionData, setSessionData }}>

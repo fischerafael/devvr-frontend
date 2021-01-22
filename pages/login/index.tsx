@@ -22,7 +22,7 @@ const Login = () => {
 				password
 			});
 
-			setSessionData({ signed: true, userId: response.data._id });
+			setSessionData({ signed: true, userId: response.data });
 
 			alert(`Usuário ${response.data.username} entrou com sucesso`);
 

@@ -1,8 +1,66 @@
-import React from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
+
+import useAuth from '../../src/hooks/useAuth';
+import api from '../../src/services';
 import { PageContainerStyle } from '../../src/styles/page-container';
+import SessionContext from '../../src/contexts/session';
+import { useRouter } from 'next/router';
 
 const Menu = () => {
+	useAuth();
+
+	const router = useRouter();
+
+	const { setSessionData, sessionData } = useContext(SessionContext);
+	const [maxDistance, setMaxDistance] = useState(10000);
+
+	const { userId } = sessionData;
+	const { _id, location } = userId;
+	const { coordinates } = location;
+	const latitude = coordinates[1];
+	const longitude = coordinates[0];
+
+	async function getUsersHandler(e: any) {
+		e.preventDefault();
+		try {
+			const response = await api.get(
+				`users?longitude=${longitude}&latitude=${latitude}&maxDistance=${maxDistance}`,
+				{
+					headers: {
+						user_id: _id
+					}
+				}
+			);
+			console.log('users', response);
+		} catch (err) {
+			alert('Falhar ao carregar usuários');
+		}
+	}
+
+	function subDistance(e: any) {
+		e.preventDefault();
+		setMaxDistance(maxDistance - 1000);
+	}
+
+	function addDistance(e: any) {
+		e.preventDefault();
+		setMaxDistance(maxDistance + 1000);
+	}
+
+	function logoutHandler() {
+		setSessionData({
+			signed: false,
+			userId: {
+				_id: '',
+				location: {
+					coordinates: [0, 0]
+				}
+			}
+		});
+		router.push('/login');
+	}
+
 	return (
 		<MenuPageContainerStyle>
 			<MenuHeaderContainerStyle>
@@ -10,14 +68,30 @@ const Menu = () => {
 			</MenuHeaderContainerStyle>
 			<MenuBodyContainerStyle>
 				<form>
-					<button className="menu-button">-</button>
-					<input type="number" placeholder="Distância Máxima" />
-					<button className="menu-button">+</button>
+					<button className="menu-button" onClick={subDistance}>
+						-
+					</button>
+					<input
+						type="number"
+						placeholder="Distância Máxima"
+						value={maxDistance / 1000}
+						onChange={(e) => setMaxDistance(+e.target.value * 1000)}
+						min="0"
+						max="20"
+					/>
+					<button className="menu-button" onClick={addDistance}>
+						+
+					</button>
 				</form>
-				<button className="menu-button search-button">PESQUISAR</button>
+				<button
+					className="menu-button search-button"
+					onClick={getUsersHandler}
+				>
+					PESQUISAR
+				</button>
 			</MenuBodyContainerStyle>
 			<MenuFooterContainerStyle>
-				<a>Sair</a>
+				<a onClick={logoutHandler}>Sair</a>
 			</MenuFooterContainerStyle>
 		</MenuPageContainerStyle>
 	);
