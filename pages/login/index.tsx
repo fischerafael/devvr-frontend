@@ -1,11 +1,43 @@
+import { useRouter } from 'next/router';
 import Link from 'next/link';
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import WhiteMenu from '../../src/components/menu/white-menu';
 import { PageContainerStyle } from '../../src/styles/page-container';
 import { MainButtonStyle } from '../../src/styles/main-button';
+import SessionServices from '../../src/services/session/idex';
+import SessionContext from '../../src/contexts/session';
 
 const Login = () => {
+	const router = useRouter();
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+
+	const { logIn, sessionData } = useContext(SessionContext);
+
+	async function loginHandler(e: any) {
+		e.preventDefault();
+		try {
+			const response = await SessionServices.create({
+				username,
+				password
+			});
+
+			const { data } = response;
+
+			logIn({ signed: true, userId: data._id });
+
+			alert(`Usuário ${response.data.username} entrou com sucesso`);
+
+			//router.push('/menu');
+		} catch (err) {
+			alert('Falha ao acessar o sistema, tente novamente.');
+
+			setUsername('');
+			setPassword('');
+		}
+	}
+
 	return (
 		<PageContainerStyle>
 			<WhiteMenu whiteMenu={true} />
@@ -15,10 +47,20 @@ const Login = () => {
 
 			<PageFormBodyStyle>
 				<form>
-					<input type="text" placeholder="Usuário GitHub" />
-					<input type="password" placeholder="Senha" />
+					<input
+						type="text"
+						placeholder="Usuário GitHub"
+						value={username}
+						onChange={(e) => setUsername(e.target.value)}
+					/>
+					<input
+						type="password"
+						placeholder="Senha"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+					/>
 				</form>
-				<MainButtonStyle>ENTRAR</MainButtonStyle>
+				<MainButtonStyle onClick={loginHandler}>ENTRAR</MainButtonStyle>
 			</PageFormBodyStyle>
 
 			<PageFormFooterStyle>

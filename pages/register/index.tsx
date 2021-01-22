@@ -17,18 +17,21 @@ const Register = () => {
 
 	async function createUserHandler(e: any) {
 		e.preventDefault();
+		try {
+			const response = await UserServices.create({
+				username,
+				password,
+				tech,
+				latitude,
+				longitude
+			});
 
-		const response = await UserServices.create({
-			username,
-			password,
-			tech,
-			latitude,
-			longitude
-		});
+			alert(`Usuário ${response.data.username} criado com sucesso`);
 
-		alert(`Usuário ${response.data.username} criado com sucesso`);
-
-		router.push('/login');
+			router.push('/login');
+		} catch (err) {
+			alert('Falha ao criar usuário, tente novamente.');
+		}
 	}
 
 	return (
