@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import SessionContext from '../contexts/session';
 import api from '../services';
 
-const useMatches = (users: any) => {
+const useMatches = (users?: any) => {
 	const { sessionData } = useContext(SessionContext);
 	const { userId } = sessionData;
 	const { _id } = userId;
