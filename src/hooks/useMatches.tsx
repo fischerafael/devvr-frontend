@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import SessionContext from '../contexts/session';
 import api from '../services';
 
-const useMatches = () => {
+const useMatches = (users: any) => {
 	const { sessionData } = useContext(SessionContext);
 	const { userId } = sessionData;
 	const { _id } = userId;
@@ -11,7 +11,7 @@ const useMatches = () => {
 
 	useEffect(() => {
 		getMatches();
-	}, []);
+	}, [users]);
 
 	async function getMatches() {
 		try {
@@ -30,7 +30,7 @@ const useMatches = () => {
 		}
 	}
 
-	return { matches };
+	return { matches, setMatches };
 };
 
 export default useMatches;

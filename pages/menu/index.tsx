@@ -7,6 +7,7 @@ import { PageContainerStyle } from '../../src/styles/page-container';
 import SessionContext from '../../src/contexts/session';
 import { useRouter } from 'next/router';
 import UsersContext from '../../src/contexts/users';
+import useMatches from '../../src/hooks/useMatches';
 
 const Menu = () => {
 	useAuth();
@@ -46,12 +47,12 @@ const Menu = () => {
 
 	function subDistance(e: any) {
 		e.preventDefault();
-		setMaxDistance(maxDistance - 1);
+		setMaxDistance(maxDistance - 1000);
 	}
 
 	function addDistance(e: any) {
 		e.preventDefault();
-		setMaxDistance(maxDistance + 1);
+		setMaxDistance(maxDistance + 1000);
 	}
 
 	function logoutHandler() {
@@ -80,7 +81,7 @@ const Menu = () => {
 					<input
 						type="number"
 						placeholder="Distância Máxima"
-						value={maxDistance}
+						value={maxDistance / 1000}
 						onChange={(e) => setMaxDistance(+e.target.value)}
 						min="0"
 						max="20"

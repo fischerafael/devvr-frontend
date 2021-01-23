@@ -1,24 +1,27 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Link from 'next/link';
-import styled from 'styled-components';
-
 import { PageContainerStyle } from '../../src/styles/page-container';
 import { PageMenuStyle } from '../../src/styles/page-menu-container';
+
 import Card from '../../src/components/card';
 import BlueMenu from '../../src/components/menu/blue-menu';
+
 import UsersContext from '../../src/contexts/users';
+
 import useAuth from '../../src/hooks/useAuth';
-import api from '../../src/services';
 import useMatches from '../../src/hooks/useMatches';
+
+import api from '../../src/services';
+
+import React, { useContext } from 'react';
+import styled from 'styled-components';
 
 const Home = () => {
 	const { sessionData } = useAuth();
 	const { userId } = sessionData;
 	const { _id } = userId;
 
-	const { matches } = useMatches();
-
 	const { users, setUsers } = useContext(UsersContext);
+
+	const { matches } = useMatches(users);
 
 	async function likeHandler(id: string) {
 		try {
